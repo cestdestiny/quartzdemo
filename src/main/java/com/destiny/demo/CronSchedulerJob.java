@@ -14,9 +14,11 @@ public class CronSchedulerJob {
     private void scheduleJob(Scheduler scheduler) throws SchedulerException {
         JobDetail jobDetail = JobBuilder.newJob(ScheduledJob.class) .withIdentity("job", "group").build();
         // 设置定时任务执行时间
+        // 每个月最后一天凌晨两点   0 0 2  L * ?
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule("0/6 * * * * ?");
-        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity("trigger", "group")
-                .usingJobData("name","王智1").withSchedule(scheduleBuilder).build();
+        CronTrigger cronTrigger = TriggerBuilder.newTrigger()
+                .withIdentity("trigger", "group")
+                .withSchedule(scheduleBuilder).build();
         scheduler.scheduleJob(jobDetail,cronTrigger);
     }
 
